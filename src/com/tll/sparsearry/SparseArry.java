@@ -1,12 +1,17 @@
 package com.tll.sparsearry;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  * @author tll
  * @create 2020/5/29 14:53
  * 创建一个稀疏数组
  */
 public class SparseArry {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         //初始二维数组
         int[][] chessArry1 = new int[10][11];
@@ -65,6 +70,32 @@ public class SparseArry {
             System.out.println();
         }
 
+        //开始向本地磁盘存储稀疏数组 spasearry
+        //使用文件名称创建流对象，可以持续些数据
+        FileWriter fileWriter = new FileWriter("D:\\电子书\\b.txt",true);
+        for (int[] ints : sparseArry) {
+            for (int anInt : ints) {
+                fileWriter.write(anInt+"\t");
+            }
+            fileWriter.write("\r\n");
+        }
+        //释放资源
+        fileWriter.close();
+
+        //读取磁盘文件
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("D:\\电子书\\b.txt"));
+        String line ;   //一行数据
+        int row = 0;
+
+        //逐行读取，并将每个数组放入到数组中
+        while ((line = bufferedReader.readLine())!=null){
+            String[] split = line.split("\t");
+            for (int i = 0; i < split.length ; i++) {
+                System.out.println(Integer.parseInt(split[i]));
+            }
+            row++;
+        }
+        bufferedReader.close();
         System.out.println("将稀疏数组转化成chessarry");
         //新建一个数组
         int[][] ints = new int[sparseArry[0][0]][sparseArry[0][1]];
